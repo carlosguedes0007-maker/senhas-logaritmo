@@ -23,8 +23,9 @@
             border-radius: 12px;
             border: 1px solid #cce0ff;
             box-shadow: 0 8px 24px rgba(0, 85, 204, 0.15); 
-            max-width: 500px;
+            max-width: 550px;
             width: 100%;
+            position: relative;
         }
 
         h1 {
@@ -34,6 +35,24 @@
 
         p {
             color: #335c8a; 
+            line-height: 1.5;
+        }
+
+        /* Estilo para as palavras interativas */
+        .palavra-chave {
+            font-weight: bold;
+            color: #0044aa;
+            text-decoration: underline;
+            text-decoration-style: dashed;
+            cursor: help;
+            transition: color 0.2s, background 0.2s;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        .palavra-chave:hover {
+            color: #ffffff;
+            background-color: #0055cc;
         }
 
         input {
@@ -62,7 +81,7 @@
             color: #0044aa; 
         }
 
-        /* Novo estilo para o Painel do Professor */
+        /* Painel da Matemática (Professor) */
         .painel-professor {
             margin-top: 30px;
             padding: 20px;
@@ -70,7 +89,7 @@
             border-radius: 8px;
             border-left: 5px solid #0055cc;
             text-align: left;
-            font-family: 'Courier New', Courier, monospace; /* Fonte com cara de matemática/código */
+            font-family: 'Courier New', Courier, monospace; 
             font-size: 16px;
             color: #003399;
         }
@@ -93,28 +112,107 @@
             display: inline-block;
             margin-bottom: 10px;
         }
+
+        /* Painel do Dicionário (Abre no duplo clique) */
+        .painel-dicionario {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff3cd; 
+            border-radius: 8px;
+            border-left: 5px solid #ffc107;
+            text-align: left;
+            font-size: 15px;
+            color: #856404;
+            display: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            line-height: 1.6;
+        }
+
+        .painel-dicionario h4 {
+            margin: 0 0 10px 0;
+            color: #b58105;
+            font-size: 18px;
+        }
+
+        /* Créditos */
+        .creditos {
+            margin-top: 40px;
+            font-size: 13px;
+            color: #8da4be;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-top: 1px solid #e0e7ff;
+            padding-top: 15px;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>🔒 Teste de Força Bruta</h1>
-        <p>Descubra a força da sua senha através da função logarítmica:</p>
+        
+        <p>
+            Dê um <strong>duplo clique</strong> nas palavras pontilhadas para entender os conceitos:<br><br>
+            Descubra a <span class="palavra-chave" data-termo="entropia">Entropia</span> (medida em <span class="palavra-chave" data-termo="bit">Bits</span>) da sua senha contra ataques de <span class="palavra-chave" data-termo="forca-bruta">Força Bruta</span> usando o <span class="palavra-chave" data-termo="logaritmo">Logaritmo</span>.
+        </p>
+
+        <div id="painelDicionario" class="painel-dicionario">
+            <h4 id="tituloDicionario">Título</h4>
+            <div id="textoDicionario">Texto explicativo vai aqui.</div>
+        </div>
         
         <input type="text" id="senha" placeholder="Digite uma senha..." autocomplete="off">
         
         <div id="resultado">Entropia: 0 bits</div>
         <div id="tempoCracking">Tempo estimado: 0 segundos</div>
 
-        <!-- O Painel do Professor aparece aqui -->
         <div class="painel-professor" id="painelProfessor" style="display: none;">
             <h3>Matemática Aplicada</h3>
             <div class="formula-destaque">E = L × log₂(R)</div>
             <div id="passoAPasso">Aguardando digitação...</div>
         </div>
+
+        <div class="creditos">
+        Carlos Guedes, Maria Eduarda, Clara Fernandes e Gabriel
+        </div>
     </div>
 
     <script>
+        // === 1. LÓGICA DO DICIONÁRIO (DUPLO CLIQUE) ===
+        const bancoDeSignificados = {
+            'entropia': "A Entropia é a medida da 'incerteza' ou do nível de embaralhamento de uma informação, calculada em Bits. Na segurança da informação, não importa se sua senha é 'bonita', importa quantos bits de entropia ela tem. Cada vez que a entropia ganha 1 bit a mais, o tempo que o hacker leva para quebrar sua senha dobra.",
+            
+            'bit': "A palavra 'Bit' vem de Binary Digit (Dígito Binário), representado pelo 0 ou 1. É a menor unidade de informação que existe. No nosso cálculo, cada 1 bit a mais de entropia significa que o número de tentativas que o computador do hacker precisa testar acabou de dobrar! É um crescimento exponencial gigante.",
+
+            'forca-bruta': "Um ataque de Força Bruta acontece quando o computador do hacker não tenta ser inteligente. Ele simplesmente usa a capacidade de processamento para chutar todas as combinações possíveis do teclado (aaaa, aaab, aaac...) até a fechadura abrir. Computadores modernos conseguem testar dezenas de bilhões de senhas por segundo.",
+            
+            'logaritmo': "O Logaritmo (na base 2) é a mágica matemática deste projeto. O número de tentativas para quebrar uma senha cresce de forma exponencial (ex: 2 elevado a 50). O Logaritmo é a operação inversa. Ele pega esse número astronômico de bilhões de combinações e o 'achata' em um número pequeno e fácil de entender, como '50 bits'."
+        };
+
+        const palavrasChave = document.querySelectorAll('.palavra-chave');
+        const painelDicionario = document.getElementById('painelDicionario');
+        const tituloDicionario = document.getElementById('tituloDicionario');
+        const textoDicionario = document.getElementById('textoDicionario');
+
+        palavrasChave.forEach(palavra => {
+            // Escutando o duplo clique (dblclick)
+            palavra.addEventListener('dblclick', function() {
+                const termo = this.getAttribute('data-termo');
+                const significado = bancoDeSignificados[termo];
+
+                // Atualiza os textos e exibe o painel
+                tituloDicionario.innerText = "Dicionário: " + this.innerText;
+                textoDicionario.innerHTML = significado;
+                painelDicionario.style.display = 'block';
+
+                // Oculta o dicionário automaticamente após 15 segundos
+                setTimeout(() => {
+                    painelDicionario.style.display = 'none';
+                }, 15000);
+            });
+        });
+
+        // === 2. LÓGICA DA MATEMÁTICA ===
         const inputSenha = document.getElementById('senha');
         const divResultado = document.getElementById('resultado');
         const divTempo = document.getElementById('tempoCracking');
@@ -135,26 +233,23 @@
             if (L === 0) {
                 divResultado.innerText = "Entropia: 0 bits";
                 divTempo.innerText = "Digite algo para testar...";
-                painelProfessor.style.display = "none"; // Esconde o painel se estiver vazio
+                painelProfessor.style.display = "none"; 
+                painelDicionario.style.display = 'none'; // Esconde o dicionário se estiver vazio
                 return;
             }
 
-            // Mostra o painel assim que começa a digitar
             painelProfessor.style.display = "block";
 
-            // Calculando o pool de caracteres (R)
             let tipos = [];
             if (/[a-z]/.test(senha)) { R += 26; tipos.push("Minúsculas (26)"); }
             if (/[A-Z]/.test(senha)) { R += 26; tipos.push("Maiúsculas (26)"); }
             if (/[0-9]/.test(senha)) { R += 10; tipos.push("Números (10)"); }
             if (/[^a-zA-Z0-9]/.test(senha)) { R += 32; tipos.push("Símbolos (32)"); }
 
-            // A Matemática: E = L * log2(R)
             const logaritmoCalculado = Math.log2(R);
             const entropia = L * logaritmoCalculado;
             const combinacoes = Math.pow(2, entropia);
             
-            // Exibindo o passo a passo pro professor
             passoAPasso.innerHTML = `
                 <strong>L (Tamanho):</strong> ${L} caracteres<br>
                 <strong>R (Possibilidades):</strong> ${R} <i>(${tipos.join(' + ')})</i><br><br>
@@ -164,7 +259,6 @@
                 <strong>E = ${entropia.toFixed(2)} bits</strong>
             `;
             
-            // Assumindo um PC testando 10 bilhões de senhas por segundo
             const poderDeProcessamento = 10000000000;
             const segundos = combinacoes / poderDeProcessamento; 
 
