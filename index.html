@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Test - Logaritmo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f4f8; 
+            color: #0b2c5e; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .container {
+            background: #ffffff; 
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #cce0ff;
+            box-shadow: 0 8px 24px rgba(0, 85, 204, 0.15); 
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #0055cc; 
+            margin-top: 0;
+        }
+
+        p {
+            color: #335c8a; 
+        }
+
+        input {
+            padding: 15px;
+            font-size: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            background: #ffffff;
+            border: 2px solid #0055cc; 
+            color: #0b2c5e;
+            margin: 20px 0;
+            border-radius: 8px;
+            outline: none;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #003399; 
+            box-shadow: 0 0 12px rgba(0, 85, 204, 0.3); 
+        }
+
+        #resultado, #tempoCracking {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+            color: #0044aa; 
+        }
+
+        /* Novo estilo para o Painel do Professor */
+        .painel-professor {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e6f0ff;
+            border-radius: 8px;
+            border-left: 5px solid #0055cc;
+            text-align: left;
+            font-family: 'Courier New', Courier, monospace; /* Fonte com cara de matemática/código */
+            font-size: 16px;
+            color: #003399;
+        }
+
+        .painel-professor h3 {
+            margin-top: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            color: #0055cc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .formula-destaque {
+            font-weight: bold;
+            font-size: 18px;
+            background: #cce0ff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🔒 Teste de Força Bruta</h1>
+        <p>Descubra a força da sua senha através da função logarítmica:</p>
+        
+        <input type="text" id="senha" placeholder="Digite uma senha..." autocomplete="off">
+        
+        <div id="resultado">Entropia: 0 bits</div>
+        <div id="tempoCracking">Tempo estimado: 0 segundos</div>
+
+        <!-- O Painel do Professor aparece aqui -->
+        <div class="painel-professor" id="painelProfessor" style="display: none;">
+            <h3>Matemática Aplicada</h3>
+            <div class="formula-destaque">E = L × log₂(R)</div>
+            <div id="passoAPasso">Aguardando digitação...</div>
+        </div>
+    </div>
+
+    <script>
+        const inputSenha = document.getElementById('senha');
+        const divResultado = document.getElementById('resultado');
+        const divTempo = document.getElementById('tempoCracking');
+        const painelProfessor = document.getElementById('painelProfessor');
+        const passoAPasso = document.getElementById('passoAPasso');
+
+        if (inputSenha) {
+            inputSenha.addEventListener('input', calcularEntropia);
+        }
+
+        function calcularEntropia() {
+            if (!inputSenha || !divResultado || !divTempo || !painelProfessor || !passoAPasso) return;
+
+            const senha = inputSenha.value;
+            const L = senha.length;
+            let R = 0;
+
+            if (L === 0) {
+                divResultado.innerText = "Entropia: 0 bits";
+                divTempo.innerText = "Digite algo para testar...";
+                painelProfessor.style.display = "none"; // Esconde o painel se estiver vazio
+                return;
+            }
+
+            // Mostra o painel assim que começa a digitar
+            painelProfessor.style.display = "block";
+
+            // Calculando o pool de caracteres (R)
+            let tipos = [];
+            if (/[a-z]/.test(senha)) { R += 26; tipos.push("Minúsculas (26)"); }
+            if (/[A-Z]/.test(senha)) { R += 26; tipos.push("Maiúsculas (26)"); }
+            if (/[0-9]/.test(senha)) { R += 10; tipos.push("Números (10)"); }
+            if (/[^a-zA-Z0-9]/.test(senha)) { R += 32; tipos.push("Símbolos (32)"); }
+
+            // A Matemática: E = L * log2(R)
+            const logaritmoCalculado = Math.log2(R);
+            const entropia = L * logaritmoCalculado;
+            const combinacoes = Math.pow(2, entropia);
+            
+            // Exibindo o passo a passo pro professor
+            passoAPasso.innerHTML = `
+                <strong>L (Tamanho):</strong> ${L} caracteres<br>
+                <strong>R (Possibilidades):</strong> ${R} <i>(${tipos.join(' + ')})</i><br><br>
+                <strong>Substituindo na fórmula:</strong><br>
+                E = ${L} × log₂(${R})<br>
+                E = ${L} × ${logaritmoCalculado.toFixed(4)}...<br>
+                <strong>E = ${entropia.toFixed(2)} bits</strong>
+            `;
+            
+            // Assumindo um PC testando 10 bilhões de senhas por segundo
+            const poderDeProcessamento = 10000000000;
+            const segundos = combinacoes / poderDeProcessamento; 
+
+            divResultado.innerText = `Entropia: ${entropia.toFixed(2)} bits (R=${R})`;
+            divTempo.innerText = `Tempo de quebra: ${formatarTempo(segundos)}`;
+        }
+
+        function formatarTempo(segundos) {
+            if (segundos < 1) return "Instante (Menos de 1 segundo!) 🚨";
+            if (segundos < 60) return `${segundos.toFixed(0)} segundos ⚠️`;
+            if (segundos < 3600) return `${(segundos / 60).toFixed(0)} minutos 🟡`;
+            if (segundos < 86400) return `${(segundos / 3600).toFixed(0)} horas 🟢`;
+            if (segundos < 31536000) return `${(segundos / 86400).toFixed(0)} dias 🛡️`;
+            return `${(segundos / 31536000).toFixed(0)} anos 💎`;
+        }
+    </script>
+</body>
+</html>
