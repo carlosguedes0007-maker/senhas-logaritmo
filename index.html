@@ -3,330 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacker Test - Logaritmo e Probabilidade</title> 
-    <style>
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f0f4f8; 
-            color: #0b2c5e; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        .container {
-            background: #ffffff; 
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid #cce0ff;
-            box-shadow: 0 8px 24px rgba(0, 85, 204, 0.15); 
-            max-width: 650px; 
-            width: 100%;
-            position: relative;
-        }
-
-        h1 {
-            color: #0055cc; 
-            margin-top: 0;
-        }
-
-        p {
-            color: #335c8a; 
-            line-height: 1.5;
-        }
-
-        .palavra-chave {
-            font-weight: bold;
-            color: #0044aa;
-            text-decoration: underline;
-            text-decoration-style: dashed;
-            cursor: help;
-            transition: color 0.2s, background 0.2s;
-            padding: 2px 5px;
-            border-radius: 4px;
-        }
-
-        .palavra-chave:hover {
-            color: #ffffff;
-            background-color: #0055cc;
-        }
-
-        input {
-            padding: 15px;
-            font-size: 20px;
-            width: 100%;
-            box-sizing: border-box;
-            background: #ffffff;
-            border: 2px solid #0055cc; 
-            color: #0b2c5e;
-            margin: 20px 0;
-            border-radius: 8px;
-            outline: none;
-            transition: box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-
-        input:focus {
-            border-color: #003399; 
-            box-shadow: 0 0 12px rgba(0, 85, 204, 0.3); 
-        }
-
-        #resultado, #tempoCracking {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 15px;
-            color: #0044aa; 
-        }
-
-        .painel-professor {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e6f0ff;
-            border-radius: 8px;
-            border-left: 5px solid #0055cc;
-            text-align: left;
-            font-family: 'Courier New', Courier, monospace; 
-            font-size: 15px;
-            color: #003399;
-            line-height: 1.5;
-        }
-
-        .painel-professor h3 {
-            margin-top: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            color: #0055cc;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .formula-destaque {
-            font-weight: bold;
-            font-size: 16px;
-            background: #cce0ff;
-            padding: 8px 12px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 15px;
-            border: 1px dashed #0055cc;
-        }
-
-        .etapa-calc {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px dashed #b3d4ff;
-        }
-        
-        .etapa-calc:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .painel-dicionario {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #fff3cd; 
-            border-radius: 8px;
-            border-left: 5px solid #ffc107;
-            text-align: left;
-            font-size: 15px;
-            color: #856404;
-            display: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            line-height: 1.6;
-        }
-
-        .painel-dicionario h4 {
-            margin: 0 0 10px 0;
-            color: #b58105;
-            font-size: 18px;
-        }
-
-        .creditos {
-            margin-top: 40px;
-            font-size: 13px;
-            color: #8da4be;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-top: 1px solid #e0e7ff;
-            padding-top: 15px;
-        }
-    </style>
+    <meta name="description" content="Teste a força da sua senha contra ataques de força bruta usando logaritmos e probabilidade. Calcule a entropia e descubra quanto tempo um hacker levaria para quebrá-la.">
+    <title>Hacker Test — Logaritmo e Probabilidade</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
+    <!-- Matrix Rain Background -->
+    <canvas id="matrixCanvas"></canvas>
+
     <div class="container">
-        <h1>Teste de Probabilidade & Logaritmo</h1>
-        
+
+        <!-- Header bar decorativo -->
+        <div class="header-bar">
+            <div class="header-dot"></div>
+            <span class="header-path">sys/security/prob_log_test.exe</span>
+        </div>
+
+        <h1>
+            <span class="icon-lock">🔒</span>
+            Teste de Probabilidade<br>& Logaritmo
+        </h1>
+
         <p>
             Dê um <strong>duplo clique</strong> nas palavras pontilhadas para entender os conceitos:<br><br>
-            Descubra a <span class="palavra-chave" data-termo="probabilidade">Probabilidade</span> de invasão e a <span class="palavra-chave" data-termo="entropia">Entropia</span> (em <span class="palavra-chave" data-termo="bit">Bits</span>) da sua senha contra a <span class="palavra-chave" data-termo="forca-bruta">Força Bruta</span> usando o <span class="palavra-chave" data-termo="logaritmo">Logaritmo</span>.
+            Descubra a
+            <span class="palavra-chave" data-termo="probabilidade">Probabilidade</span>
+            de invasão e a
+            <span class="palavra-chave" data-termo="entropia">Entropia</span>
+            (em
+            <span class="palavra-chave" data-termo="bit">Bits</span>)
+            da sua senha contra a
+            <span class="palavra-chave" data-termo="forca-bruta">Força Bruta</span>
+            usando o
+            <span class="palavra-chave" data-termo="logaritmo">Logaritmo</span>.
         </p>
 
+        <!-- Painel do Dicionário -->
         <div id="painelDicionario" class="painel-dicionario">
             <h4 id="tituloDicionario">Título</h4>
             <div id="textoDicionario">Texto explicativo vai aqui.</div>
         </div>
-        
-        <input type="text" id="senha" placeholder="Digite uma senha..." autocomplete="off">
-        
-        <div id="resultado">Entropia: 0 bits</div>
-        <div id="tempoCracking">Tempo estimado: 0 segundos</div>
 
+        <!-- Campo de senha -->
+        <div class="input-wrapper">
+            <input type="text" id="senha" placeholder="Digite uma senha..." autocomplete="off">
+        </div>
+
+        <!-- Resultados -->
+        <div class="results-area">
+            <div id="resultado">Entropia: 0 bits</div>
+            <div id="tempoCracking">Tempo estimado: 0 segundos</div>
+            <div class="strength-bar-wrapper">
+                <div id="strengthBar" class="strength-bar level-0"></div>
+            </div>
+        </div>
+
+        <!-- Painel Matemática -->
         <div class="painel-professor" id="painelProfessor" style="display: none;">
-            <h3>Matemática Aberta</h3>
+            <h3>// Matemática Aberta</h3>
             <div class="formula-destaque">E = log₂(Combinações) &nbsp;➡&nbsp; E = L × log₂(R)</div>
             <div id="passoAPasso">Aguardando digitação...</div>
         </div>
 
+        <!-- Créditos -->
+        <hr class="separator">
         <div class="creditos">
-        Carlos Guedes, Maria Eduarda, Clara Fernandes e Gabriel Pedroso
+            Carlos Guedes · Maria Eduarda<br>
+            Clara Fernandes · Gabriel Pedroso
         </div>
+
     </div>
 
-    <script>
-        // === 1. LÓGICA DO DICIONÁRIO ===
-        const bancoDeSignificados = {
-            'probabilidade': "A chance de um hacker acertar sua senha no primeiro 'chute'. Se sua senha tem 1 milhão de combinações possíveis, a probabilidade do hacker acertar de primeira é de 1 em 1 milhão (uma fração muito próxima de zero).",
-
-            'entropia': "A Entropia é a medida da 'incerteza', calculada através do logaritmo da probabilidade. Na segurança, não importa se sua senha é 'bonita', importa quantos bits de entropia ela tem. Cada vez que a entropia ganha 1 bit, o tempo de quebra dobra.",
-            
-            'bit': "A palavra 'Bit' vem de Binary Digit (Dígito Binário). É a menor unidade de informação. No nosso cálculo, cada 1 bit a mais de entropia significa que o número de tentativas que o computador do hacker precisa testar acabou de dobrar!",
-
-            'forca-bruta': "Um ataque onde o computador tenta adivinhar a senha testando todas as combinações possíveis em alta velocidade (aaaa, aaab, aaac...).",
-            
-            'logaritmo': "O Logaritmo (na base 2) faz o caminho inverso da potência. Ele pega o número gigantesco de combinações totais geradas pela probabilidade e descobre qual é o expoente (os Bits) que gerou aquele monstro."
-        };
-
-        const palavrasChave = document.querySelectorAll('.palavra-chave');
-        const painelDicionario = document.getElementById('painelDicionario');
-        const tituloDicionario = document.getElementById('tituloDicionario');
-        const textoDicionario = document.getElementById('textoDicionario');
-
-        palavrasChave.forEach(palavra => {
-            palavra.addEventListener('dblclick', function() {
-                const termo = this.getAttribute('data-termo');
-                const significado = bancoDeSignificados[termo];
-
-                tituloDicionario.innerText = "Dicionário: " + this.innerText;
-                textoDicionario.innerHTML = significado;
-                painelDicionario.style.display = 'block';
-
-                setTimeout(() => {
-                    painelDicionario.style.display = 'none';
-                }, 15000);
-            });
-        });
-
-        // === 2. LÓGICA DA MATEMÁTICA E PROBABILIDADE ===
-        const inputSenha = document.getElementById('senha');
-        const divResultado = document.getElementById('resultado');
-        const divTempo = document.getElementById('tempoCracking');
-        const painelProfessor = document.getElementById('painelProfessor');
-        const passoAPasso = document.getElementById('passoAPasso');
-
-        if (inputSenha) {
-            inputSenha.addEventListener('input', calcularEntropia);
-        }
-
-        function formatarNumero(num) {
-            if (num > 1e18) return num.toExponential(2); 
-            return num.toLocaleString('pt-BR');
-        }
-
-        function calcularEntropia() {
-            if (!inputSenha || !divResultado || !divTempo || !painelProfessor || !passoAPasso) return;
-
-            const senha = inputSenha.value;
-            const L = senha.length;
-            let R = 0;
-
-            if (L === 0) {
-                divResultado.innerText = "Entropia: 0 bits";
-                divTempo.innerText = "Digite algo para testar...";
-                painelProfessor.style.display = "none"; 
-                painelDicionario.style.display = 'none';
-                return;
-            }
-
-            painelProfessor.style.display = "block";
-
-            let tipos = [];
-            if (/[a-z]/.test(senha)) { R += 26; tipos.push("Minúsculas"); }
-            if (/[A-Z]/.test(senha)) { R += 26; tipos.push("Maiúsculas"); }
-            if (/[0-9]/.test(senha)) { R += 10; tipos.push("Números"); }
-            if (/[^a-zA-Z0-9]/.test(senha)) { R += 32; tipos.push("Símbolos"); }
-
-            // Cálculos expostos
-            const combinacoes = Math.pow(R, L);
-            const probabilidade = 1 / combinacoes;
-            const logaritmoCalculado = Math.log2(R);
-            const entropia = L * logaritmoCalculado; 
-            
-            const poderDeProcessamento = 10000000000; // 10 bilhões por segundo
-            const segundos = combinacoes / poderDeProcessamento; 
-            const anos = segundos / 31536000;
-            
-            // Renderizando todos os passos matemáticos no HTML
-            passoAPasso.innerHTML = `
-                <div class="etapa-calc">
-                    <strong>1. Análise Base:</strong><br>
-                    <strong>L</strong> (Tamanho da senha): ${L} caracteres<br>
-                    <strong>R</strong> (Tipos de caracteres): ${R} <i>(${tipos.join(' + ')})</i>
-                </div>
-
-                <div class="etapa-calc">
-                    <strong>2. A Probabilidade (P):</strong><br>
-                    Chance de chutar 1 caractere certo: 1/${R}<br>
-                    Chance de chutar a senha inteira certa: (1/${R})<sup>${L}</sup><br>
-                    P = 1 / ${formatarNumero(combinacoes)}
-                </div>
-
-                <div class="etapa-calc">
-                    <strong>3. Combinações Totais (C):</strong><br>
-                    C = R<sup>L</sup> ➡ ${R}<sup>${L}</sup><br>
-                    C = <strong>${formatarNumero(combinacoes)}</strong> combinações
-                </div>
-
-                <div class="etapa-calc">
-                    <strong>4. Calculando o Logaritmo (Entropia):</strong><br>
-                    A Entropia é o Logaritmo das combinações na Base 2.<br>
-                    E = log₂(C) ➡ log₂(${formatarNumero(combinacoes)})<br>
-                    <i>Aplicando a propriedade da potência: E = L × log₂(R)</i><br>
-                    E = ${L} × ${logaritmoCalculado.toFixed(4)}<br>
-                    <strong style="color: #0055cc; font-size: 16px;">E = ${entropia.toFixed(2)} bits</strong>
-                </div>
-
-                <div class="etapa-calc">
-                    <strong>5. A Conversão de Tempo (Bits ➡ Anos):</strong><br>
-                    <strong>I. A Potência:</strong> Combinações (C) = 2<sup>${entropia.toFixed(2)}</sup><br>
-                    <strong>II. Em Segundos (S):</strong> C ÷ 10 Bilhões (Velocidade do Hacker)<br>
-                    S = ${formatarNumero(segundos)} segundos<br>
-                    <strong>III. Em Anos (A):</strong> S ÷ 31.536.000 (Segundos em 1 ano)<br>
-                    <strong style="color: #0055cc; font-size: 16px;">A = ${formatarNumero(anos)} anos</strong>
-                </div>
-            `;
-
-            divResultado.innerText = `Entropia: ${entropia.toFixed(2)} bits`;
-            divTempo.innerText = `Tempo de Força Bruta: ${formatarTempo(segundos)}`;
-        }
-
-        function formatarTempo(segundos) {
-            if (segundos < 1) return "Instante (Menos de 1s) 🚨";
-            if (segundos < 60) return `${segundos.toFixed(0)} segundos ⚠️`;
-            if (segundos < 3600) return `${(segundos / 60).toFixed(0)} minutos 🟡`;
-            if (segundos < 86400) return `${(segundos / 3600).toFixed(0)} horas 🟢`;
-            if (segundos < 31536000) return `${(segundos / 86400).toFixed(0)} dias 🛡️`;
-            
-            const anos = segundos / 31536000;
-            if (anos > 1e6) return `${formatarNumero(anos)} anos 💎`;
-            return `${anos.toFixed(0)} anos 💎`;
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

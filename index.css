@@ -1,0 +1,494 @@
+/* ============================================
+   HACKER TEST — RETRO GAME / CRT TERMINAL THEME
+   Probabilidade & Logaritmo
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap');
+
+/* --- CSS Custom Properties --- */
+:root {
+    --color-bg:           #0a0e14;
+    --color-bg-panel:     #0d1117;
+    --color-border:       #1b4332;
+    --color-border-glow:  #00ff4180;
+    --color-primary:      #00ff41;
+    --color-primary-dim:  #00cc33;
+    --color-primary-dark: #009926;
+    --color-secondary:    #00e5ff;
+    --color-accent:       #ffcc00;
+    --color-accent-dim:   #b38f00;
+    --color-danger:       #ff3333;
+    --color-text:         #c0ffc0;
+    --color-text-dim:     #5a7a5a;
+    --color-scanline:     rgba(0, 255, 65, 0.03);
+
+    --font-pixel:  'Press Start 2P', monospace;
+    --font-mono:   'Share Tech Mono', 'Courier New', monospace;
+
+    --glow-primary: 0 0 6px rgba(0, 255, 65, 0.4),
+                    0 0 20px rgba(0, 255, 65, 0.1);
+    --glow-strong:  0 0 8px rgba(0, 255, 65, 0.6),
+                    0 0 30px rgba(0, 255, 65, 0.2);
+    --glow-accent:  0 0 6px rgba(255, 204, 0, 0.4),
+                    0 0 20px rgba(255, 204, 0, 0.1);
+}
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-mono);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    text-align: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* --- CRT Scanline Overlay --- */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        var(--color-scanline) 2px,
+        var(--color-scanline) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* --- CRT Vignette --- */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 50%,
+        rgba(0, 0, 0, 0.35) 100%
+    );
+    pointer-events: none;
+    z-index: 9998;
+}
+
+/* --- Main Container --- */
+.container {
+    background: var(--color-bg-panel);
+    padding: 32px 28px;
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--glow-primary),
+                inset 0 0 60px rgba(0, 255, 65, 0.02);
+    max-width: 650px;
+    width: 100%;
+    position: relative;
+    animation: bootUp 0.8s ease-out;
+}
+
+@keyframes bootUp {
+    0% {
+        opacity: 0;
+        transform: scale(0.97);
+        filter: brightness(3);
+    }
+    30% {
+        filter: brightness(1.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
+
+/* Decorative corner brackets */
+.container::before,
+.container::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-color: var(--color-primary-dim);
+    border-style: solid;
+    pointer-events: none;
+}
+
+.container::before {
+    top: 6px;
+    left: 6px;
+    border-width: 2px 0 0 2px;
+}
+
+.container::after {
+    bottom: 6px;
+    right: 6px;
+    border-width: 0 2px 2px 0;
+}
+
+/* --- Header Bar --- */
+.header-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.header-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    box-shadow: 0 0 6px var(--color-primary);
+    animation: blink 2.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+}
+
+.header-path {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-text-dim);
+    letter-spacing: 1px;
+}
+
+/* --- Title --- */
+h1 {
+    font-family: var(--font-pixel);
+    font-size: 12px;
+    color: var(--color-primary);
+    margin: 20px 0 6px;
+    letter-spacing: 1px;
+    text-shadow: var(--glow-primary);
+    line-height: 1.8;
+}
+
+h1 .icon-lock {
+    display: block;
+    font-size: 28px;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 65, 0.5));
+}
+
+/* --- Description Paragraph --- */
+p {
+    color: var(--color-text-dim);
+    line-height: 1.7;
+    font-size: 13px;
+    margin: 14px 0 0;
+}
+
+p strong {
+    color: var(--color-primary-dim);
+}
+
+/* --- Interactive Keywords --- */
+.palavra-chave {
+    font-weight: bold;
+    color: var(--color-secondary);
+    text-decoration: none;
+    cursor: help;
+    position: relative;
+    padding: 1px 6px;
+    border: 1px dashed var(--color-secondary);
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    display: inline-block;
+    margin: 2px 0;
+}
+
+.palavra-chave:hover {
+    color: var(--color-bg);
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    text-shadow: none;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+/* --- Dictionary Panel --- */
+.painel-dicionario {
+    margin-top: 16px;
+    padding: 16px 18px;
+    background-color: rgba(255, 204, 0, 0.06);
+    border-radius: 3px;
+    border: 1px solid var(--color-accent-dim);
+    border-left: 3px solid var(--color-accent);
+    text-align: left;
+    font-size: 13px;
+    color: var(--color-accent);
+    display: none;
+    box-shadow: var(--glow-accent);
+    line-height: 1.7;
+    animation: panelSlideIn 0.3s ease-out;
+}
+
+@keyframes panelSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.painel-dicionario h4 {
+    margin: 0 0 10px 0;
+    color: var(--color-accent);
+    font-size: 11px;
+    font-family: var(--font-pixel);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* --- Password Input --- */
+.input-wrapper {
+    position: relative;
+    margin: 20px 0;
+}
+
+.input-wrapper::before {
+    content: '>';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 6px var(--color-primary);
+    pointer-events: none;
+}
+
+/* --- Matrix Rain Canvas --- */
+#matrixCanvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.container {
+    z-index: 1;
+}
+
+input#senha {
+    padding: 14px 14px 14px 34px;
+    font-size: 18px;
+    width: 100%;
+    background: rgba(0, 255, 65, 0.04);
+    border: 1px solid var(--color-border);
+    color: var(--color-primary);
+    border-radius: 3px;
+    outline: none;
+    font-family: var(--font-mono);
+    letter-spacing: 0.5px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    caret-color: var(--color-primary);
+}
+
+input#senha::placeholder {
+    color: var(--color-text-dim);
+    letter-spacing: 1px;
+    font-size: 13px;
+}
+
+input#senha:focus {
+    border-color: var(--color-primary-dim);
+    box-shadow: var(--glow-primary);
+    background: rgba(0, 255, 65, 0.06);
+}
+
+/* --- Results Display --- */
+.results-area {
+    margin: 16px 0;
+    padding: 14px;
+    background: rgba(0, 255, 65, 0.03);
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+}
+
+#resultado {
+    font-size: 14px;
+    font-family: var(--font-pixel);
+    font-weight: normal;
+    color: var(--color-primary);
+    text-shadow: var(--glow-primary);
+    margin-bottom: 8px;
+    line-height: 1.8;
+}
+
+#tempoCracking {
+    font-size: 13px;
+    font-family: var(--font-mono);
+    font-weight: bold;
+    color: var(--color-text);
+}
+
+/* --- Strength Bar --- */
+.strength-bar-wrapper {
+    margin-top: 12px;
+    height: 4px;
+    background: var(--color-border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 2px;
+    transition: width 0.5s ease, background 0.5s ease;
+    box-shadow: 0 0 8px currentColor;
+}
+
+.strength-bar.level-0 { width: 0%; background: var(--color-text-dim); }
+.strength-bar.level-1 { width: 20%; background: var(--color-danger); }
+.strength-bar.level-2 { width: 40%; background: #ff8800; }
+.strength-bar.level-3 { width: 60%; background: var(--color-accent); }
+.strength-bar.level-4 { width: 80%; background: var(--color-primary-dim); }
+.strength-bar.level-5 { width: 100%; background: var(--color-primary); }
+
+/* --- Math Panel (Professor) --- */
+.painel-professor {
+    margin-top: 20px;
+    padding: 18px;
+    background-color: rgba(0, 255, 65, 0.04);
+    border-radius: 3px;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-primary-dark);
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-text);
+    line-height: 1.6;
+    display: none;
+    animation: panelSlideIn 0.3s ease-out;
+}
+
+.painel-professor h3 {
+    margin: 0 0 14px;
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: var(--color-primary-dim);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.formula-destaque {
+    font-weight: bold;
+    font-size: 13px;
+    color: var(--color-primary);
+    background: rgba(0, 255, 65, 0.08);
+    padding: 8px 14px;
+    border: 1px dashed var(--color-primary-dark);
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 16px;
+    text-shadow: 0 0 4px rgba(0, 255, 65, 0.3);
+    font-family: var(--font-mono);
+}
+
+/* --- Etapas de Cálculo --- */
+.etapa-calc {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed rgba(0, 255, 65, 0.15);
+}
+
+.etapa-calc:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+#passoAPasso {
+    line-height: 1.8;
+    color: var(--color-text);
+}
+
+#passoAPasso strong {
+    color: var(--color-primary-dim);
+}
+
+#passoAPasso i {
+    color: var(--color-text-dim);
+    font-style: normal;
+}
+
+/* Highlighted result inside math steps */
+#passoAPasso .resultado-destaque {
+    color: var(--color-primary);
+    font-size: 15px;
+    text-shadow: 0 0 4px rgba(0, 255, 65, 0.3);
+}
+
+/* --- Separator --- */
+.separator {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 24px 0 14px;
+}
+
+/* --- Credits --- */
+.creditos {
+    font-size: 9px;
+    font-family: var(--font-pixel);
+    color: var(--color-text-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1.8;
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+    .container {
+        padding: 22px 16px;
+    }
+
+    h1 {
+        font-size: 10px;
+    }
+
+    #resultado {
+        font-size: 11px;
+    }
+
+    .formula-destaque {
+        font-size: 11px;
+    }
+
+    .painel-professor h3 {
+        font-size: 8px;
+    }
+
+    .creditos {
+        font-size: 7px;
+    }
+}
