@@ -95,41 +95,58 @@ function calcularEntropia() {
     const anos = segundos / 31536000;
 
     // Renderizando todos os passos matemáticos no HTML
+    // Montar a cadeia R × R × R... para visualização
+    const cadeiaR = Array(Math.min(L, 6)).fill(R).join(' × ') + (L > 6 ? ' × ...' : '');
+
     passoAPasso.innerHTML = `
         <div class="etapa-calc">
             <strong>1. Análise Base:</strong><br>
             <strong>L</strong> (Tamanho da senha): ${L} caracteres<br>
-            <strong>R</strong> (Tipos de caracteres): ${R} <i>(${tipos.join(' + ')})</i>
+            <strong>R</strong> (Tipos de caracteres): ${R} <i>(${tipos.join(' + ')})</i><br>
+            <i>R = o total de caracteres possíveis em cada posição da senha.</i>
         </div>
 
         <div class="etapa-calc">
             <strong>2. A Probabilidade (P):</strong><br>
-            Chance de chutar 1 caractere certo: 1/${R}<br>
-            Chance de chutar a senha inteira certa: (1/${R})<sup>${L}</sup><br>
-            P = 1 / ${formatarNumero(combinacoes)}
+            A chance de acertar <strong>1</strong> caractere: 1 em ${R} ➡ <strong>1/${R}</strong><br><br>
+            A chance de acertar a senha <strong>inteira</strong> (${L} caracteres seguidos):<br>
+            P = (1/${R}) × (1/${R})${L > 2 ? ' × ...' : ''} ➡ (1/${R})<sup>${L}</sup><br><br>
+            Resolvendo a potência do denominador:<br>
+            ${R}<sup>${L}</sup> = ${cadeiaR} = <strong>${formatarNumero(combinacoes)}</strong><br><br>
+            Portanto:<br>
+            <strong>P = 1 / ${formatarNumero(combinacoes)}</strong>
         </div>
 
         <div class="etapa-calc">
             <strong>3. Combinações Totais (C):</strong><br>
+            O denominador da probabilidade já nos dá o total de combinações:<br>
             C = R<sup>L</sup> ➡ ${R}<sup>${L}</sup><br>
-            C = <strong>${formatarNumero(combinacoes)}</strong> combinações
+            C = ${cadeiaR}<br>
+            C = <strong>${formatarNumero(combinacoes)}</strong> combinações possíveis
         </div>
 
         <div class="etapa-calc">
             <strong>4. Calculando o Logaritmo (Entropia):</strong><br>
-            A Entropia é o Logaritmo das combinações na Base 2.<br>
-            E = log₂(C) ➡ log₂(${formatarNumero(combinacoes)})<br>
-            <i>Aplicando a propriedade da potência: E = L × log₂(R)</i><br>
-            E = ${L} × ${logaritmoCalculado.toFixed(4)}<br>
+            A Entropia é o Logaritmo das combinações na Base 2.<br><br>
+            E = log₂(C)<br>
+            E = log₂(${formatarNumero(combinacoes)})<br><br>
+            <i>Propriedade do logaritmo: log₂(R<sup>L</sup>) = L × log₂(R)</i><br>
+            E = ${L} × log₂(${R})<br>
+            E = ${L} × ${logaritmoCalculado.toFixed(4)}...<br>
             <span class="resultado-destaque"><strong>E = ${entropia.toFixed(2)} bits</strong></span>
         </div>
 
         <div class="etapa-calc">
-            <strong>5. A Conversão de Tempo (Bits ➡ Anos):</strong><br>
-            <strong>I. A Potência:</strong> Combinações (C) = 2<sup>${entropia.toFixed(2)}</sup><br>
-            <strong>II. Em Segundos (S):</strong> C ÷ 10 Bilhões (Velocidade do Hacker)<br>
-            S = ${formatarNumero(segundos)} segundos<br>
-            <strong>III. Em Anos (A):</strong> S ÷ 31.536.000 (Segundos em 1 ano)<br>
+            <strong>5. A Conversão de Tempo (Bits ➡ Anos):</strong><br><br>
+            <strong>I. A Potência:</strong><br>
+            Combinações (C) = 2<sup>E</sup> = 2<sup>${entropia.toFixed(2)}</sup> = ${formatarNumero(combinacoes)}<br><br>
+            <strong>II. Em Segundos (S):</strong><br>
+            S = C ÷ Velocidade do Hacker<br>
+            S = ${formatarNumero(combinacoes)} ÷ 10.000.000.000<br>
+            S = <strong>${formatarNumero(segundos)} segundos</strong><br><br>
+            <strong>III. Em Anos (A):</strong><br>
+            A = S ÷ segundos em 1 ano<br>
+            A = ${formatarNumero(segundos)} ÷ 31.536.000<br>
             <span class="resultado-destaque"><strong>A = ${formatarNumero(anos)} anos</strong></span>
         </div>
     `;
