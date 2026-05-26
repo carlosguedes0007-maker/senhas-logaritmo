@@ -1,6 +1,6 @@
 # 🔐 Hacker Test — Logaritmo e Probabilidade
 
-🔗 **[Acessar o Projeto](https://carlosguedes0007-maker.github.io/senhas-logaritmo/)**
+🔗 **[Acessar o Projeto](https://carlosguedes-dev.github.io/senhas-logaritmo/)**
 
 ## 📌 Sobre o Projeto
 Uma ferramenta da web interativa e educacional focada em demonstrar na prática os conceitos de **Probabilidade**, **Entropia** e **Logaritmos** aplicados ao mundo da Segurança da Informação. O aplicativo permite que você digite senhas para calcular sua complexidade e verificar a capacidade de resistência contra um "ataque de Força Bruta".
